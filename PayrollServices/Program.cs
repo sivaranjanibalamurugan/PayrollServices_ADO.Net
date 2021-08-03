@@ -7,6 +7,8 @@ namespace PayrollServices
         static void Main(string[] args)
         {
             Console.WriteLine("Payroll ADO.Net");
+            EmployeeRepository repository = new EmployeeRepository();
+            repository.GetAllData();
         }
     }
 }
