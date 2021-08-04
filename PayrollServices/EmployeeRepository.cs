@@ -9,11 +9,16 @@ namespace PayrollServices
 {
     class EmployeeRepository
     {
+        List<EmployeeDetail> employeeList = new List<EmployeeDetail>();
+        /// <summary>
+        /// Creating the connection
+        /// </summary>
         public static string connectionString = "Data Source=(localdb)\\ProjectsV13;Initial Catalog=Payroll_services";
+        //creating the object for sql connection class
         SqlConnection sqlConnection = new SqlConnection(connectionString);
-        public void GetAllData()
+        public List<EmployeeDetail> GetAllData()
         {
-            //opening SQL connection
+            //opening the sql connection
             sqlConnection.Open();
             //create the query to display data
             string query = @"select * from employee_payroll";
@@ -40,32 +45,36 @@ namespace PayrollServices
                         employee.department = reader.GetString(6);
                         //display the result
                         Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ", employee.employeeId, employee.employeeName, employee.gender, employee.startDate, employee.phoneNumber, employee.address, employee.department);
+                        employeeList.Add(employee);
                     }
+                    reader.Close();
+                    return employeeList;
                 }
                 else
                 {
-                    Console.WriteLine("No data available");
+                    reader.Close();
+                    return employeeList;
                 }
-                reader.Close();
+
             }
             //if any exception occurs catch and display exception message
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw new Exception(e.Message);
             }
             //finally close the connection
             finally
             {
-                this.sqlConnection.Close();
+                sqlConnection.Close();
             }
         }
-        public void UpdateSalary()
+        public int UpdateSalary()
         {
             //assigning the details which has to be updated
             EmployeeDetail employee = new EmployeeDetail();
             employee.employeeName = "Terissa";
             employee.employeeId = 3;
-            employee.basicPay = 3000000;
+            employee.basicPay = 3000012;
             using (sqlConnection)
                 try
                 {
@@ -84,21 +93,21 @@ namespace PayrollServices
                         Console.WriteLine("Salary is updated");
                     else
                         Console.WriteLine("Updation failed");
+                    return result;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    throw new Exception(e.Message);
                 }
                 finally
                 {
                     sqlConnection.Close();
                 }
         }
-        public void DisplayDataBasedOnDate()
+        public List<EmployeeDetail> DisplayDataBasedOnDate(DateTime startdate, DateTime dateTime)
         {
             EmployeeDetail employee = new EmployeeDetail();
-            DateTime startdate = new DateTime(2021, 07,31 );
-            DateTime dateTime = new DateTime(2020, 07, 30);
+
 
             using (sqlConnection)
                 try
@@ -127,18 +136,22 @@ namespace PayrollServices
                             employee.department = reader.GetString(6);
                             //display the result
                             Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ", employee.employeeId, employee.employeeName, employee.gender, employee.startDate, employee.phoneNumber, employee.address, employee.department);
+                            employeeList.Add(employee);
                         }
+                        reader.Close();
+                        return employeeList;
                     }
                     else
                     {
-                        Console.WriteLine("No data vailable");
+                        reader.Close();
+                        return employeeList;
                     }
-                    reader.Close();
+
                 }
                 //if any exception occurs catch and display exception message
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    throw new Exception(e.Message);
                 }
                 //finally close the connection
                 finally
@@ -146,10 +159,38 @@ namespace PayrollServices
                     sqlConnection.Close();
                 }
         }
+
+        public int Aggregate()
+        {
+          
+            //create object for employee detail class
+            EmployeeDetail employee = new EmployeeDetail();
+            using (sqlConnection)
+                try
+                {
+                    //passing query in terms of stored procedure
+                    SqlCommand sqlCommand = new SqlCommand("dbo.Aggregate", sqlConnection);
+                    //passing command type as stored procedure
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlConnection.Open();
+                    //adding the parameter to the strored procedure
+                    sqlCommand.Parameters.AddWithValue("@NetPay", employee.NetPay);
+                    sqlCommand.Parameters.AddWithValue("@gender", employee.gender);
+                   
+                    //checking the result 
+                    int result = sqlCommand.ExecuteNonQuery();
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+                finally
+                {
+                    sqlConnection.Close();
+                }
+        }
     }
 }
-        
     
 
-
-       

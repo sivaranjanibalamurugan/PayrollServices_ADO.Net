@@ -17,6 +17,7 @@ namespace PayrollServices
         public string department { get; set; }
         public double basicPay { get; set; }
         public double taxablePay { get; set; }
+        public double NetPay { get; set; }
 
     }
 }
