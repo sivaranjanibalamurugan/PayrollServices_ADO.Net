@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PayrollServices
 {
-    class EmployeeDetail
+    public class EmployeeDetail
     {
         public int employeeId { get; set; }
         public string employeeName { get; set; }
@@ -18,6 +18,8 @@ namespace PayrollServices
         public double basicPay { get; set; }
         public double taxablePay { get; set; }
         public double NetPay { get; set; }
+        public double deduction { get; set; }
+        public double tax { get; set; }
 
     }
 }

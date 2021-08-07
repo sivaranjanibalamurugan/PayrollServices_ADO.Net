@@ -62,7 +62,27 @@ namespace PayRollTest
         {
 
             //Act
-            string actual = repository.AggregareteFunction(choice);
+            string actual = repository.Aggregate();
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void InsertIntoTableTest()
+        {
+            int expected = 1;
+            //Assign
+            EmployeeDetail employee = new EmployeeDetail();
+            employee.employeeName = "aaa";
+            employee.address = "xxx";
+            employee.gender = "male";
+            employee.department = "HR";
+            employee.startDate = new DateTime(2020-03-30);
+            employee.basicPay = 100000;
+            employee.deduction = 2000;
+            employee.taxablePay = 1326;
+            employee.tax = 256;
+            employee.phoneNumber = 9032165478;
+            int actual = repository.InsertIntotable(employee);
             //Assert
             Assert.AreEqual(expected, actual);
         }

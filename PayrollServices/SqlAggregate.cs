@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PayrollServices
 {
-    class SqlAggregate
+   public class SqlAggregate
     {
         SqlConnection sqlConnection;
         public SqlAggregate(SqlConnection sqlConnection)
