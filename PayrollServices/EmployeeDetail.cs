@@ -9,9 +9,13 @@ namespace PayrollServices
     public class EmployeeDetail
     {
         public int employeeId { get; set; }
+        public int companyId { get; set; }
+        public int departmentId { get; set; }
         public string employeeName { get; set; }
         public DateTime startDate { get; set; }
         public string gender { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
         public double phoneNumber { get; set; }
         public string address { get; set; }
         public string department { get; set; }
