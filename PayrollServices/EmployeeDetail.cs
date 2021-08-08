@@ -24,6 +24,8 @@ namespace PayrollServices
         public double NetPay { get; set; }
         public double deduction { get; set; }
         public double tax { get; set; }
+        public int isActive { get; set; }
+
 
     }
 }

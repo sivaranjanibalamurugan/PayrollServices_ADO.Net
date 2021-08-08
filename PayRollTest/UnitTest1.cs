@@ -104,12 +104,50 @@ namespace PayRollTest
         public void InsertIntoTables()
         {
             int expected = 1;
-            //Assign
+          
             EmployeeDetail employee = new EmployeeDetail { employeeId = 10, employeeName = "Tom", companyId = 01, departmentId = 9, phoneNumber =7410258963, address = "MRNagar", city = "chennai", state = "TamilNadu", startDate = "2017-12-05", gender = "M", basicPay = 30000 };
             TransactionManagement transaction = new TransactionManagement();
             int actual = transaction.AddingRecord(employee);
             Assert.AreEqual(expected, actual);
 
+        }
+        //--------------Uc10- checking U2-6 in new tables
+       
+        [DataRow("4 2 ", "dbo.countEmployee")] //Count of employee test
+        [DataRow("312142 468213 ", "dbo.MaximumSalary1")] //maximum salary test
+        [DataRow("44211 44211", "dbo.MinimumSalary1")] // minimum salary test
+        [DataRow("67093 874628 ", "dbo.AverageSalary")] // Avg salary test
+        [DataRow("4571002 973020 ", "dbo.SumofSalary1")] //sum of salary test
+        [DataTestMethod]
+        public void AggregatefunctionTest2(string expected, string procedure)
+        {
+
+            //Act
+            string actual = repository.AggregareteFunction(procedure);
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void DisplayDataBasedOnData1()
+        {
+            int expected = 3;
+            DateTime startdate = new DateTime(2020, 07, 20);
+            DateTime dateTime = new DateTime(2021, 07, 30);
+            List<EmployeeDetail> list = repository.DisplayDataBasedOnDate(startdate, dateTime, "dbo.RetriveBasedOnDate");
+            int actual = list.Count();
+            Assert.AreEqual(expected, actual);
+
+        }
+        [TestMethod]
+        //checking whether the update is passed or not
+        public void UpdateSalaryTest1()
+        {
+            //Assign
+            int expected = 1;
+            //Act
+            int actual = repository.UpdateSalary(2, 24000, "dbo.updatePayroll");
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
