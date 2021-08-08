@@ -10,9 +10,7 @@ namespace PayrollServices
    public class EmployeeRepository
     {
         List<EmployeeDetail> employeeList = new List<EmployeeDetail>();
-        /// <summary>
         /// Creating the connection
-        /// </summary>
         public static string connectionString = "Data Source=(localdb)\\ProjectsV13;Initial Catalog=Payroll_services";
         //creating the object for sql connection class
         SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -227,7 +225,7 @@ namespace PayrollServices
                     sqlConnection.Close();
                 }
         }
-    }
+   }
 }
     
 
