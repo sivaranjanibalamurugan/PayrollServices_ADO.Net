@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PayrollServices
 {
-    class TransactionManagement
+    public class TransactionManagement
     {
         public static string connectionString = "Data Source=(localdb)\\ProjectsV13;Initial Catalog=Payroll_services";
         //creating the object for sql connection class

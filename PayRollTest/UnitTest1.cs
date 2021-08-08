@@ -76,7 +76,7 @@ namespace PayRollTest
             employee.address = "xxx";
             employee.gender = "male";
             employee.department = "HR";
-            employee.startDate = new DateTime(2020-03-30);
+            employee.startDate = "2021-03-29";
             employee.basicPay = 100000;
             employee.deduction = 2000;
             employee.taxablePay = 1326;
@@ -85,6 +85,31 @@ namespace PayRollTest
             int actual = repository.InsertIntotable(employee);
             //Assert
             Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void InsertIntoPayrollTable()
+        {
+            int expected = 1;
+            //Assign
+            EmployeeDetail employee = new EmployeeDetail();
+            employee.basicPay = 18000;
+            employee.employeeId = 11;
+            TransactionManagement transaction = new TransactionManagement();
+            int actual = transaction.AddingRecord(employee);
+            Assert.AreEqual(expected, actual);
+
+        }
+        
+        [TestMethod]
+        public void InsertIntoTables()
+        {
+            int expected = 1;
+            //Assign
+            EmployeeDetail employee = new EmployeeDetail { employeeId = 10, employeeName = "Tom", companyId = 01, departmentId = 9, phoneNumber =7410258963, address = "MRNagar", city = "chennai", state = "TamilNadu", startDate = "2017-12-05", gender = "M", basicPay = 30000 };
+            TransactionManagement transaction = new TransactionManagement();
+            int actual = transaction.AddingRecord(employee);
+            Assert.AreEqual(expected, actual);
+
         }
     }
 }
