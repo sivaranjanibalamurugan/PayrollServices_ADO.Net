@@ -173,6 +173,12 @@ namespace PayRollTest
             List<EmployeeDetail> actual = new TransactionManagement().RetriveDataForAudit("dbo.RetriveAllData");
             Assert.AreEqual(expected, actual.Count);
         }
+        [TestMethod]
+        public void TestInsertionWithoutThread()
+        {
+            long actual = new TransactionManagement().InsertWithoutThread();
+            Console.WriteLine("" + actual);
+        }
 
     }
 }

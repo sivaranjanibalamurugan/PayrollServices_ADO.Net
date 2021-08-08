@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace PayrollServices
@@ -33,7 +34,7 @@ namespace PayrollServices
                     transaction.Commit();
                     return 1;
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     //else roll back
                     transaction.Rollback();
@@ -149,9 +150,25 @@ namespace PayrollServices
                 }
             }
         }
+        public long InsertWithoutThread()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            AddDetails();
+            stopwatch.Stop();
+            return (stopwatch.ElapsedMilliseconds);
 
+        }
+        void AddDetails()
+        {
+            AddingRecord(new EmployeeDetail { employeeName = "aaa", address = "MR road", companyId = 1, city = "salem", state = "TamilNadu", startDate = "2019-11-20", gender = "M", phoneNumber = 8963025471, departmentId = 5, basicPay = 45500 });
+            AddingRecord(new EmployeeDetail { employeeName = "bbbb", address = "RR road", companyId = 2, city = "Trichy", state = "TamilNadu", startDate = "2004-05-13", gender = "F", phoneNumber = 7896541230, departmentId = 4, basicPay = 35000 });
+            AddingRecord(new EmployeeDetail { employeeName = "ccc", address = "Psk Street", companyId = 1, city = "YYY", state = "Kerala", startDate = "2017-7-30", gender = "M", phoneNumber = 8520147963, departmentId = 3, basicPay = 35126 });
+        }
     }
+
 }
+
 
     
 
