@@ -17,36 +17,40 @@ namespace PayrollServices
             EmployeeDetail details = employee;
             PayRollDetails payRoll = new PayRollDetails(employee.basicPay);
             using (sqlConnection)
-                try
+                
                 {
                     sqlConnection.Open();
-                    string query = "insert into Employee values('xxx',4, 9632587410, 'RR Nagar' , 'TamilNadu' , 'madurai','2018-06-13','M')";
-                    SqlCommand command = new SqlCommand(query, sqlConnection);
-                    //create data reader 
-                    int result = command.ExecuteNonQuery();
-                    //if last query executed next query takes place
-                    if (result > 0)
-                    {
-                        query = "insert into PayRoll(Emp_id,BasicPay,Deduction,TaxablePay,Tax,NetPay) values(" + employee.employeeId + "," + payRoll.basicPay + "," + payRoll.deduction + "," + payRoll.taxablePay + "," + payRoll.tax + "," + payRoll.netPay + ")";
-                        command = new SqlCommand(query, sqlConnection);
-                        result = command.ExecuteNonQuery();
-                        if (result > 0)
-                        {
-                            return 1;
-                        }
-                    }
-                    return 0;
+                SqlTransaction transaction = sqlConnection.BeginTransaction();
+                try
+                {
+                    string employeInsertion = "insert into Employee(emp_name,company_id,phoneNumber,address,city,state,startDate,gender) values ('" + employee.employeeName + "'," + employee.companyId + "," + employee.phoneNumber + ",'" + employee.address + "','" + employee.city + "','" + employee.state + "','" + employee.startDate + "','" + employee.gender + "')";
+                    string payRollInsertion = "insert into PayRoll(Emp_id,BasicPay,Deduction,TaxablePay,Tax,NetPay) values(" + employee.employeeId + "," + payRoll.basicPay + "," + payRoll.deduction + "," + payRoll.taxablePay + "," + payRoll.tax + "," + payRoll.netPay + ")";
+                    string employeeDepartmentInsertion = "insert into Employee_Department values (" + employee.employeeId + "," + employee.departmentId + ")";
+                    new SqlCommand(employeInsertion, sqlConnection, transaction).ExecuteNonQuery();
+                    new SqlCommand(payRollInsertion, sqlConnection, transaction).ExecuteNonQuery();
+                    new SqlCommand(employeeDepartmentInsertion, sqlConnection, transaction).ExecuteNonQuery();
+                    //if all query is successfull commit
+                    transaction.Commit();
+                    return 1;
                 }
                 catch (Exception e)
                 {
-                    throw new Exception(e.Message);
+                    //else roll back
+                    transaction.Rollback();
+                    return 0;
                 }
                 finally
                 {
                     sqlConnection.Close();
                 }
+            }
         }
+
     }
 }
+
+        
+    
+
     
 

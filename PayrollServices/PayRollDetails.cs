@@ -15,6 +15,7 @@ namespace PayrollServices
         public double netPay;
         public PayRollDetails(double basicPay)
         {
+            this.basicPay = basicPay;
             this.deduction = 0.2 * basicPay;
             this.taxablePay = this.deduction - basicPay;
             this.tax = 0.1 * taxablePay;

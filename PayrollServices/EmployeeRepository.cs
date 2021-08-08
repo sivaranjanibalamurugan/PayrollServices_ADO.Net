@@ -14,12 +14,11 @@ namespace PayrollServices
         public static string connectionString = "Data Source=(localdb)\\ProjectsV13;Initial Catalog=Payroll_services";
         //creating the object for sql connection class
         SqlConnection sqlConnection = new SqlConnection(connectionString);
-        public List<EmployeeDetail> GetAllData()
+        public List<EmployeeDetail> GetAllData(string query)
         {
             //opening the sql connection
             sqlConnection.Open();
-            //create the query to display data
-            string query = @"select * from employee_payroll";
+     
             //create object for employee detail class
             EmployeeDetail employee = new EmployeeDetail();
             try
@@ -66,27 +65,25 @@ namespace PayrollServices
                 sqlConnection.Close();
             }
         }
-        public int UpdateSalary()
+        public int UpdateSalary(int basePay, int id, string procedureName)
         {
-            //assigning the details which has to be updated
-            EmployeeDetail employee = new EmployeeDetail();
-            employee.employeeName = "Terissa";
-            employee.employeeId = 3;
-            employee.basicPay = 3000012;
+           
             using (sqlConnection)
                 try
                 {
                     //passing query in terms of stored procedure
-                    SqlCommand sqlCommand = new SqlCommand("dbo.UpadateSalaryPayrollemployee_payroll", sqlConnection);
+                    SqlCommand sqlCommand = new SqlCommand(procedureName, sqlConnection);
                     //passing command type as stored procedure
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlConnection.Open();
                     //adding the parameter to the strored procedure
-                    sqlCommand.Parameters.AddWithValue("@id", employee.employeeId);
-                    sqlCommand.Parameters.AddWithValue("@name", employee.employeeName);
-                    sqlCommand.Parameters.AddWithValue("@basicPay", employee.basicPay);
+                    sqlCommand.Parameters.AddWithValue("@id", id);
+                    sqlCommand.Parameters.AddWithValue("@basicPay", basePay);
                     //checking the result 
                     int result = sqlCommand.ExecuteNonQuery();
+                    return result;
+                    //checking the result 
+                  
                     if (result > 0)
                         Console.WriteLine("Salary is updated");
                     else
@@ -158,36 +155,12 @@ namespace PayrollServices
                 }
         }
 
-        public int Aggregate()
-        {
+        public int Aggregate(string procedureName)
+            {
+                string data = new SqlAggregate(sqlConnection).AgregateFunctionCalculate(procedureName);
+                return data;
+            }
 
-            //create object for employee detail class
-            EmployeeDetail employee = new EmployeeDetail();
-            using (sqlConnection)
-                try
-                {
-                    //passing query in terms of stored procedure
-                    SqlCommand sqlCommand = new SqlCommand("dbo.Aggregate", sqlConnection);
-                    //passing command type as stored procedure
-                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlConnection.Open();
-                    //adding the parameter to the strored procedure
-                    sqlCommand.Parameters.AddWithValue("@NetPay", employee.NetPay);
-                    sqlCommand.Parameters.AddWithValue("@gender", employee.gender);
-
-                    //checking the result 
-                    int result = sqlCommand.ExecuteNonQuery();
-                    return result;
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(e.Message);
-                }
-                finally
-                {
-                    sqlConnection.Close();
-                }
-        }
         public int InsertIntotable(EmployeeDetail employee)
         {
             using (sqlConnection)
