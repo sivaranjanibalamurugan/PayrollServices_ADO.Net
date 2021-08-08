@@ -149,5 +149,30 @@ namespace PayRollTest
             //Assert
             Assert.AreEqual(expected, actual);
         }
+        [TestMethod]
+        //UC12- Cascading delete
+        public void DeleteRecord()
+        {
+            int expected = 1;
+            int actual = new TransactionManagement().DeleteUsingCasadeDelete(4);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        //UC12- Cascading delete
+        public void AddindIsActiveField()
+        {
+            int expected = 1;
+            int actual = new TransactionManagement().AddIsActiveColumn();
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void RetrivingDataBasedOnIsActiveField()
+        {
+            int expected = 8;
+            List<EmployeeDetail> actual = new TransactionManagement().RetriveDataForAudit("dbo.RetriveAllData");
+            Assert.AreEqual(expected, actual.Count);
+        }
+
     }
 }
