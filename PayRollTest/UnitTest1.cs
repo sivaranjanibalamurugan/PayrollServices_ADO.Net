@@ -207,6 +207,18 @@ namespace PayRollTest
             EmployeeDetailsWithSalary employee = new EmployeeDetailsWithSalary { id =3 , name = "Karthik", salary = 56700 };
             new PayRollJSONServer().WriteIntoJsonServer(employee);
         }
-
+        //UC3-Adding multiple data to the json file
+        [TestMethod]    
+        public void AddMultipleData()
+        {
+            List<EmployeeDetailsWithSalary> employeeList = new List<EmployeeDetailsWithSalary>
+            {
+                new EmployeeDetailsWithSalary{id=6,name="xxxx",salary=15267},
+                new EmployeeDetailsWithSalary{id=7,name="yyyy",salary=65000}
+            };
+            new PayRollJSONServer().AddingMultipleContactToServer(employeeList);
+            employeeList = new PayRollJSONServer().ReadFromServer();
+            Assert.AreEqual(6, employeeList.Count);
+        }
     }
 }

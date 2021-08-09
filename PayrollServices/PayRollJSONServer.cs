@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PayrollServices
 {
-   public class PayRollJSONServer
+    public class PayRollJSONServer
     {
         RestClient client;
         public PayRollJSONServer()
@@ -22,7 +22,7 @@ namespace PayrollServices
             IRestResponse response = client.Execute(request);
             return response;
         }
-    
+
         public List<EmployeeDetailsWithSalary> ReadFromServer()
         {
             IRestResponse response = GetAllEmployee();
@@ -43,6 +43,14 @@ namespace PayrollServices
             IRestResponse response = client.Execute(request);
             var res = JsonConvert.DeserializeObject<EmployeeDetailsWithSalary>(response.Content);
             Console.WriteLine("" + res.id + "Added");
+        }
+        //Adding multiple data to the server
+        public void AddingMultipleContactToServer(List<EmployeeDetailsWithSalary> employees)
+        {
+            foreach (var employee in employees)
+            {
+                WriteIntoJsonServer(employee);
+            }
         }
     }
 }
