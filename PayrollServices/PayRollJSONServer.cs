@@ -52,6 +52,20 @@ namespace PayrollServices
                 WriteIntoJsonServer(employee);
             }
         }
+        //Update the record using put method
+        public bool UpdateValueInJsonServer(EmployeeDetailsWithSalary employee)
+        {
+            int result = 0;
+            RestRequest request = new RestRequest("/employees/" + employee.id, Method.PUT);
+            JsonObject json = new JsonObject();
+            json.Add("id", employee.id);
+            json.Add("name", employee.name);
+            json.Add("salary", employee.salary);
+            request.AddParameter("application/json", json, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            var res = JsonConvert.DeserializeObject<EmployeeDetailsWithSalary>(response.Content);
+            return response.IsSuccessful;
+        }
     }
 }
 
