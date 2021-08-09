@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using SimpleJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +29,21 @@ namespace PayrollServices
             var res = JsonConvert.DeserializeObject<List<EmployeeDetailsWithSalary>>(response.Content);
             return res;
         }
+        //writing into the server 
+        public void WriteIntoJsonServer(EmployeeDetailsWithSalary employee)
+        {
+            RestRequest request = new RestRequest("/employees", Method.POST);
+            //creating the json object
+            JsonObject json = new JsonObject();
+            //adding the data to json object
+            json.Add("id", employee.id);
+            json.Add("name", employee.name);
+            json.Add("salary", employee.salary);
+            request.AddParameter("application/json", json, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            var res = JsonConvert.DeserializeObject<EmployeeDetailsWithSalary>(response.Content);
+            Console.WriteLine("" + res.id + "Added");
+        }
     }
 }
+
