@@ -159,11 +159,26 @@ namespace PayrollServices
             return (stopwatch.ElapsedMilliseconds);
 
         }
+        public long InsertWithThread()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Task thread = new Task(() =>
+            {
+                AddingRecord(new EmployeeDetail { employeeId = 15, employeeName = "ddd", address = "mr nagar", companyId = 2, city = "salem", state = "Kerala", startDate = "2014-12-30", gender = "M", phoneNumber = 8542361523, departmentId = 5, basicPay = 45000 });
+                AddingRecord(new EmployeeDetail { employeeId = 16, employeeName = "eee", address = "crossroad", companyId = 2, city = "Chennai", state = "TamilNadu", startDate = "2014-06-30", gender = "F", phoneNumber = 8542361523, departmentId = 4, basicPay = 15000 });
+                AddingRecord(new EmployeeDetail { employeeId = 17, employeeName = "fff", address = "kk Street", companyId = 2, city = "Kottaiyam", state = "Kerala", startDate = "2017-12-30", gender = "M", phoneNumber = 8542361523, departmentId = 3, basicPay = 35000 });
+            });
+            thread.Start();
+            stopwatch.Stop();
+            return stopwatch.ElapsedMilliseconds;
+
+        }
         void AddDetails()
         {
-            AddingRecord(new EmployeeDetail { employeeName = "aaa", address = "MR road", companyId = 1, city = "salem", state = "TamilNadu", startDate = "2019-11-20", gender = "M", phoneNumber = 8963025471, departmentId = 5, basicPay = 45500 });
-            AddingRecord(new EmployeeDetail { employeeName = "bbbb", address = "RR road", companyId = 2, city = "Trichy", state = "TamilNadu", startDate = "2004-05-13", gender = "F", phoneNumber = 7896541230, departmentId = 4, basicPay = 35000 });
-            AddingRecord(new EmployeeDetail { employeeName = "ccc", address = "Psk Street", companyId = 1, city = "YYY", state = "Kerala", startDate = "2017-7-30", gender = "M", phoneNumber = 8520147963, departmentId = 3, basicPay = 35126 });
+            AddingRecord(new EmployeeDetail {employeeId= 20, employeeName = "aaa", address = "MR road", companyId = 1, city = "salem", state = "TamilNadu", startDate = "2019-11-20", gender = "M", phoneNumber = 8963025471, departmentId = 5, basicPay = 45500 });
+            AddingRecord(new EmployeeDetail { employeeId = 22, employeeName = "bbbb", address = "RR road", companyId = 2, city = "Trichy", state = "TamilNadu", startDate = "2004-05-13", gender = "F", phoneNumber = 7896541230, departmentId = 4, basicPay = 35000 });
+            AddingRecord(new EmployeeDetail { employeeId = 21, employeeName = "ccc", address = "Psk Street", companyId = 1, city = "YYY", state = "Kerala", startDate = "2017-7-30", gender = "M", phoneNumber = 8520147963, departmentId = 3, basicPay = 35126 });
         }
     }
 

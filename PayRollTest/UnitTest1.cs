@@ -179,6 +179,27 @@ namespace PayRollTest
             long actual = new TransactionManagement().InsertWithoutThread();
             Console.WriteLine("" + actual);
         }
+        [TestMethod]
+        public void TestInsertionWithThread()
+        {
+            long actual = new TransactionManagement().InsertWithThread();
+            Console.WriteLine("" + actual);
+        }
+        [TestMethod]
+        public void TestInsertionWithSynchronization()
+        {
+            long actual = new TransactionManagement().InsertWithThread();
+            Console.WriteLine("" + actual);
+        }
+          //*********JSON*******
+        //UC1-Read data from server
+        [TestMethod]
+        public void ReadAllDataFromServer()
+        {
+            int expected = 3;
+            List<EmployeeDetailsWithSalary> employeeList = new PayRollJSONServer().ReadFromServer();
+            Assert.AreEqual(expected, employeeList.Count);
+        }
 
     }
 }
